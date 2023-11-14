@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -83,7 +80,28 @@ public class Main {
             }).limit(r.nextInt(0,10)).count();
         System.out.println(arreglo);
 
+        //10. Dado un array de cadenas, ¿cómo encontramos solo elementos duplicados y el
+        //número de veces? usando funciones Stream. (1.5 ptos.)
+        Map<String, Long> duplicadosConteo =  Stream.generate(() -> {
+                    String charr= Stream.generate(() -> {
+                                int num = r.nextInt(0,letra.length());
+                                String c= String.valueOf(letra.charAt(num));
+                                return c;
+                            }).limit(8)
+                            .map(Objects::toString)
+                            .collect(Collectors.joining());
+                    return charr;
+                }).limit(r.nextInt(0,10))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        duplicadosConteo.forEach((elemento, conteoLong) ->
+                System.out.println(elemento + " aparece " + conteoLong + " veces"));
 
 
+
+        //
     }
 }
